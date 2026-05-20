@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Goal 1 – Units 9–15 Revision</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0f4ff;
+    --card: #ffffff;
+    --primary: #3b4cca;
+    --accent: #ff6b35;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #fbbf24;
+    --text: #1e1e2e;
+    --muted: #6b7280;
+    --radius: 18px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  header {
+    text-align: center;
+    padding: 30px 20px 20px;
+    animation: fadeDown .6s ease both;
+  }
+
+  header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: var(--primary);
+    line-height: 1.1;
+  }
+
+  header p {
+    color: var(--muted);
+    margin-top: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  /* Tab nav */
+  .tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 20px auto;
+    max-width: 900px;
+    animation: fadeUp .6s .1s ease both;
+  }
+
+  .tab-btn {
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 2.5px solid transparent;
+    background: var(--card);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: .85rem;
+    cursor: pointer;
+    transition: all .2s;
+    box-shadow: 0 2px 6px #0001;
+    color: var(--muted);
+  }
+
+  .tab-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px #0002; }
+
+  .tab-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 4px 14px #3b4cca44;
+  }
+
+  /* Unit panels */
+  .unit-panel { display: none; max-width: 900px; margin: 0 auto; animation: fadeUp .4s ease both; }
+  .unit-panel.active { display: block; }
+
+  .unit-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 20px 28px;
+  }
+
+  .unit-badge {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.4rem;
+    border-radius: 12px;
+    padding: 4px 16px;
+    white-space: nowrap;
+  }
+
+  .unit-header h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .unit-header p { font-size: .9rem; opacity: .85; margin-top: 2px; }
+
+  .sections {
+    background: var(--card);
+    border-radius: 0 0 var(--radius) var(--radius);
+    padding: 24px;
+    display: grid;
+    gap: 20px;
+    box-shadow: 0 4px 20px #0001;
+  }
+
+  /* Section cards */
+  .section-card {
+    border-radius: 14px;
+    padding: 18px 20px;
+    border: 2px solid #e5e7eb;
+  }
+
+  .section-card h3 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-card h3 span.icon { font-size: 1.2rem; }
+
+  /* Vocab list */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+  }
+
+  .vocab-item {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: .88rem;
+    font-weight: 600;
+    border: 1px solid #e5e7eb;
+  }
+
+  .vocab-item em {
+    display: block;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--muted);
+    font-size: .78rem;
+    margin-top: 2px;
+  }
+
+  /* Grammar box */
+  .grammar-rule {
+    background: #eff6ff;
+    border-left: 4px solid var(--primary);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    font-size: .9rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .grammar-rule strong { color: var(--primary); }
+
+  .example {
+    background: #f0fdf4;
+    border-left: 4px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    padding: 8px 14px;
+    font-size: .88rem;
+    margin-top: 6px;
+    color: #166534;
+  }
+
+  /* Quiz */
+  .quiz-question {
+    background: #fff;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .quiz-question p { font-weight: 700; margin-bottom: 10px; font-size: .92rem; }
+
+  .options { display: flex; flex-direction: column; gap: 7px; }
+
+  .option-btn {
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 9px 14px;
+    text-align: left;
+    font-family: 'Nunito', sans-serif;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+  }
+
+  .option-btn:hover:not(:disabled) { border-color: var(--primary); background: #eff6ff; }
+
+  .option-btn.correct { background: #dcfce7; border-color: var(--green); color: #166534; }
+  .option-btn.wrong   { background: #fee2e2; border-color: var(--red);   color: #991b1b; }
+  .option-btn:disabled { cursor: default; }
+
+  .feedback { font-size: .8rem; margin-top: 6px; font-weight: 700; }
+  .feedback.correct { color: var(--green); }
+  .feedback.wrong   { color: var(--red); }
+
+  /* Score bar */
+  .score-bar {
+    background: #f3f4f6;
+    border-radius: 50px;
+    height: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+
+  .score-fill {
+    height: 100%;
+    border-radius: 50px;
+    background: linear-gradient(90deg, var(--green), #86efac);
+    transition: width .4s ease;
+    width: 0%;
+  }
+
+  .score-label { font-size: .85rem; font-weight: 700; color: var(--muted); margin-top: 4px; }
+
+  /* Fill-blank */
+  .fill-question { margin-bottom: 14px; }
+  .fill-question p { font-weight: 600; font-size: .9rem; margin-bottom: 6px; }
+
+  input.blank {
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: .9rem;
+    font-weight: 600;
+    width: 180px;
+    outline: none;
+    transition: border-color .2s;
+  }
+
+  input.blank:focus { border-color: var(--primary); }
+  input.blank.correct { border-color: var(--green); background: #f0fdf4; }
+  input.blank.wrong   { border-color: var(--red);   background: #fef2f2; }
+
+  .check-btn, .reset-btn {
+    margin-top: 12px;
+    padding: 9px 22px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: .88rem;
+    cursor: pointer;
+    border: none;
+    transition: all .2s;
+  }
+
+  .check-btn { background: var(--primary); color: #fff; margin-right: 8px; }
+  .check-btn:hover { background: #2d3aa0; transform: translateY(-1px); }
+  .reset-btn { background: #f3f4f6; color: var(--muted); }
+  .reset-btn:hover { background: #e5e7eb; }
+
+  /* Conversation */
+  .convo-line {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .speaker {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 800;
+    font-size: .75rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+
+  .convo-line p { font-size: .9rem; line-height: 1.5; }
+
+  /* Tip box */
+  .tip {
+    background: #fffbeb;
+    border: 2px solid var(--yellow);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: .88rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .tip .tip-icon { font-size: 1.3rem; }
+  .tip p { line-height: 1.5; }
+
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
+  @keyframes fadeUp   { from { opacity: 0; transform: translateY( 20px); } to { opacity: 1; transform: none; } }
+
+  @media (max-width: 600px) {
+    .vocab-grid { grid-template-columns: 1fr 1fr; }
+    .sections { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Super Goal 1 — Revision</h1>
+  <p>Units 9 – 15 | Vocabulary · Grammar · Practice</p>
+</header>
+
+<nav class="tab-nav" id="tabNav">
+  <button class="tab-btn active" onclick="showUnit(9,this)">Unit 9</button>
+  <button class="tab-btn" onclick="showUnit(10,this)">Unit 10</button>
+  <button class="tab-btn" onclick="showUnit(11,this)">Unit 11</button>
+  <button class="tab-btn" onclick="showUnit(12,this)">Unit 12</button>
+  <button class="tab-btn" onclick="showUnit(13,this)">Unit 13</button>
+  <button class="tab-btn" onclick="showUnit(14,this)">Unit 14</button>
+  <button class="tab-btn" onclick="showUnit(15,this)">Unit 15</button>
+</nav>
+
+<!-- ==================== UNIT 9 ==================== -->
+<div class="unit-panel active" id="unit9">
+  <div class="unit-header">
+    <div class="unit-badge">Unit 9</div>
+    <div>
+      <h2>What Do You Do?</h2>
+      <p>Jobs & Occupations · Simple Present</p>
+    </div>
+  </div>
+  <div class="sections">
+
+    <div class="section-card">
+      <h3><span class="icon">📝</span> Key Vocabulary – Jobs</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item">doctor<em>طبيب</em></div>
+        <div class="vocab-item">teacher<em>معلم</em></div>
+        <div class="vocab-item">engineer<em>مهندس</em></div>
+        <div class="vocab-item">nurse<em>ممرضة</em></div>
+        <div class="vocab-item">police officer<em>ضابط شرطة</em></div>
+        <div class="vocab-item">chef<em>طاهٍ</em></div>
+        <div class="vocab-item">pilot<em>طيار</em></div>
+        <div class="vocab-item">journalist<em>صحفي</em></div>
+        <div class="vocab-item">scientist<em>عالم</em></div>
+        <div class="vocab-item">lawyer<em>محامٍ</em></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">📐</span> Grammar – Simple Present</h3>
+      <div class="grammar-rule">
+        Use the <strong>Simple Present</strong> to talk about jobs, habits, and facts.<br>
+        <strong>He / She / It</strong> → add <strong>-s</strong> or <strong>-es</strong>
+      </div>
+      <div class="example">✅ I <strong>work</strong> in a hospital. &nbsp;|&nbsp; She <strong>teaches</strong> English. &nbsp;|&nbsp; He <strong>drives</strong> a bus.</div>
+      <div class="grammar-rule" style="margin-top:10px;">
+        <strong>Questions:</strong> Do / Does + subject + verb?<br>
+        <strong>Negatives:</strong> don't / doesn't + verb
+      </div>
+      <div class="example">✅ <strong>Does</strong> he work in a school? – Yes, he <strong>does</strong>. / No, he <strong>doesn't</strong>.</div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">🎯</span> Quick Quiz</h3>
+      <div id="quiz9"></div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">✏️</span> Fill in the Blank</h3>
+      <div id="fill9"></div>
+      <button class="check-btn" onclick="checkFill('fill9')">Check ✓</button>
+      <button class="reset-btn" onclick="resetFill('fill9')">Reset</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== UNIT 10 ==================== -->
+<div class="unit-panel" id="unit10">
+  <div class="unit-header" style="background:#7c3aed;">
+    <div class="unit-badge" style="background:#f59e0b;">Unit 10</div>
+    <div>
+      <h2>What's School Like?</h2>
+      <p>School Subjects · Adjectives to describe school</p>
+    </div>
+  </div>
+  <div class="sections">
+
+    <div class="section-card">
+      <h3><span class="icon">📝</span> Key Vocabulary – Subjects & Feelings</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item">math<em>رياضيات</em></div>
+        <div class="vocab-item">science<em>علوم</em></div>
+        <div class="vocab-item">history<em>تاريخ</em></div>
+        <div class="vocab-item">art<em>فن</em></div>
+        <div class="vocab-item">P.E.<em>تربية رياضية</em></div>
+        <div class="vocab-item">music<em>موسيقى</em></div>
+        <div class="vocab-item">easy<em>سهل</em></div>
+        <div class="vocab-item">difficult<em>صعب</em></div>
+        <div class="vocab-item">boring<em>ممل</em></div>
+        <div class="vocab-item">interesting<em>مثير للاهتمام</em></div>
+        <div class="vocab-item">favorite<em>المفضل</em></div>
+        <div class="vocab-item">homework<em>واجب منزلي</em></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">📐</span> Grammar – Adverbs of Frequency</h3>
+      <div class="grammar-rule">
+        <strong>always → usually → often → sometimes → rarely → never</strong><br>
+        Place frequency adverbs <strong>before</strong> the main verb, but <strong>after</strong> the verb "be".
+      </div>
+      <div class="example">✅ I <strong>always</strong> do my homework. &nbsp;|&nbsp; She is <strong>never</strong> late.</div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">🎯</span> Quick Quiz</h3>
+      <div id="quiz10"></div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">✏️</span> Fill in the Blank</h3>
+      <div id="fill10"></div>
+      <button class="check-btn" onclick="checkFill('fill10')">Check ✓</button>
+      <button class="reset-btn" onclick="resetFill('fill10')">Reset</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== UNIT 11 ==================== -->
+<div class="unit-panel" id="unit11">
+  <div class="unit-header" style="background:#059669;">
+    <div class="unit-badge" style="background:#ec4899;">Unit 11</div>
+    <div>
+      <h2>What Time Do You Get Up?</h2>
+      <p>Daily Routines · Telling Time</p>
+    </div>
+  </div>
+  <div class="sections">
+
+    <div class="section-card">
+      <h3><span class="icon">📝</span> Key Vocabulary – Daily Routine</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item">wake up<em>يستيقظ</em></div>
+        <div class="vocab-item">get dressed<em>يرتدي ملابسه</em></div>
+        <div class="vocab-item">have breakfast<em>يتناول الفطور</em></div>
+        <div class="vocab-item">go to school<em>يذهب للمدرسة</em></div>
+        <div class="vocab-item">have lunch<em>يتناول الغداء</em></div>
+        <div class="vocab-item">do homework<em>يؤدي الواجب</em></div>
+        <div class="vocab-item">watch TV<em>يشاهد التلفاز</em></div>
+        <div class="vocab-item">go to bed<em>يذهب للنوم</em></div>
+        <div class="vocab-item">brush teeth<em>يفرش أسنانه</em></div>
+        <div class="vocab-item">take a shower<em>يستحم</em></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">📐</span> Grammar – Telling Time + Prepositions</h3>
+      <div class="grammar-rule">
+        <strong>at</strong> + time → at 7 o'clock, at noon<br>
+        <strong>in</strong> + morning / afternoon / evening<br>
+        <strong>on</strong> + day → on Monday
+      </div>
+      <div class="example">✅ I wake up <strong>at 6:00</strong> in the <strong>morning</strong>. &nbsp;|&nbsp; She does homework <strong>in the afternoon</strong>.</div>
+      <div class="grammar-rule" style="margin-top:10px;">
+        Telling time: <strong>It's + time</strong><br>
+        3:00 = three o'clock &nbsp;|&nbsp; 3:15 = quarter past three &nbsp;|&nbsp; 3:30 = half past three &nbsp;|&nbsp; 3:45 = quarter to four
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">🎯</span> Quick Quiz</h3>
+      <div id="quiz11"></div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">✏️</span> Fill in the Blank</h3>
+      <div id="fill11"></div>
+      <button class="check-btn" onclick="checkFill('fill11')">Check ✓</button>
+      <button class="reset-btn" onclick="resetFill('fill11')">Reset</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== UNIT 12 ==================== -->
+<div class="unit-panel" id="unit12">
+  <div class="unit-header" style="background:#b45309;">
+    <div class="unit-badge" style="background:#10b981;">Unit 12</div>
+    <div>
+      <h2>What Can You Do There?</h2>
+      <p>Places in Town · Modal: can / can't</p>
+    </div>
+  </div>
+  <div class="sections">
+
+    <div class="section-card">
+      <h3><span class="icon">📝</span> Key Vocabulary – Places</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item">library<em>مكتبة</em></div>
+        <div class="vocab-item">museum<em>متحف</em></div>
+        <div class="vocab-item">park<em>حديقة عامة</em></div>
+        <div class="vocab-item">stadium<em>ملعب</em></div>
+        <div class="vocab-item">mall<em>مجمع تجاري</em></div>
+        <div class="vocab-item">cinema<em>سينما</em></div>
+        <div class="vocab-item">pool<em>مسبح</em></div>
+        <div class="vocab-item">gym<em>نادٍ رياضي</em></div>
+        <div class="vocab-item">restaurant<em>مطعم</em></div>
+        <div class="vocab-item">hospital<em>مستشفى</em></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">📐</span> Grammar – Modal: can / can't</h3>
+      <div class="grammar-rule">
+        Use <strong>can</strong> for ability and possibility.<br>
+        <strong>can</strong> does NOT change with he/she/it.<br>
+        Negative: <strong>can't</strong> (cannot)
+      </div>
+      <div class="example">
+        ✅ You <strong>can</strong> swim at the pool. &nbsp;|&nbsp; She <strong>can't</strong> park here.<br>
+        ✅ <strong>Can</strong> we play football here? – Yes, you <strong>can</strong>. / No, you <strong>can't</strong>.
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">🎯</span> Quick Quiz</h3>
+      <div id="quiz12"></div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">✏️</span> Fill in the Blank</h3>
+      <div id="fill12"></div>
+      <button class="check-btn" onclick="checkFill('fill12')">Check ✓</button>
+      <button class="reset-btn" onclick="resetFill('fill12')">Reset</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== UNIT 13 ==================== -->
+<div class="unit-panel" id="unit13">
+  <div class="unit-header" style="background:#be185d;">
+    <div class="unit-badge" style="background:#6366f1;">Unit 13</div>
+    <div>
+      <h2>What Are You Going to Wear?</h2>
+      <p>Clothing · Future: be going to</p>
+    </div>
+  </div>
+  <div class="sections">
+
+    <div class="section-card">
+      <h3><span class="icon">📝</span> Key Vocabulary – Clothes & Weather</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item">jacket<em>جاكيت</em></div>
+        <div class="vocab-item">shirt<em>قميص</em></div>
+        <div class="vocab-item">trousers<em>بنطلون</em></div>
+        <div class="vocab-item">dress<em>فستان</em></div>
+        <div class="vocab-item">sweater<em>سترة صوفية</em></div>
+        <div class="vocab-item">sneakers<em>حذاء رياضي</em></div>
+        <div class="vocab-item">sandals<em>صندل</em></div>
+        <div class="vocab-item">hat<em>قبعة</em></div>
+        <div class="vocab-item">scarf<em>وشاح</em></div>
+        <div class="vocab-item">uniform<em>زي موحد</em></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">📐</span> Grammar – be going to (Future)</h3>
+      <div class="grammar-rule">
+        <strong>Subject + am/is/are + going to + verb</strong><br>
+        Use for planned future actions.
+      </div>
+      <div class="example">
+        ✅ I <strong>am going to</strong> wear a jacket tomorrow.<br>
+        ✅ She <strong>is going to</strong> buy new shoes.<br>
+        ✅ <strong>Are</strong> they <strong>going to</strong> wear uniforms? – Yes, they <strong>are</strong>.
+      </div>
+      <div class="tip" style="margin-top:10px;">
+        <span class="tip-icon">💡</span>
+        <p><strong>Quick tip:</strong> am → I &nbsp;|&nbsp; is → he/she/it &nbsp;|&nbsp; are → you/we/they</p>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">🎯</span> Quick Quiz</h3>
+      <div id="quiz13"></div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">✏️</span> Fill in the Blank</h3>
+      <div id="fill13"></div>
+      <button class="check-btn" onclick="checkFill('fill13')">Check ✓</button>
+      <button class="reset-btn" onclick="resetFill('fill13')">Reset</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== UNIT 14 ==================== -->
+<div class="unit-panel" id="unit14">
+  <div class="unit-header" style="background:#0f766e;">
+    <div class="unit-badge" style="background:#f43f5e;">Unit 14</div>
+    <div>
+      <h2>Let's Celebrate!</h2>
+      <p>Celebrations & Holidays · Present Progressive</p>
+    </div>
+  </div>
+  <div class="sections">
+
+    <div class="section-card">
+      <h3><span class="icon">📝</span> Key Vocabulary – Celebrations</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item">birthday<em>عيد ميلاد</em></div>
+        <div class="vocab-item">party<em>حفلة</em></div>
+        <div class="vocab-item">gift / present<em>هدية</em></div>
+        <div class="vocab-item">cake<em>كعكة</em></div>
+        <div class="vocab-item">candles<em>شموع</em></div>
+        <div class="vocab-item">holiday<em>عطلة / عيد</em></div>
+        <div class="vocab-item">invite<em>يدعو</em></div>
+        <div class="vocab-item">celebrate<em>يحتفل</em></div>
+        <div class="vocab-item">decorate<em>يزيّن</em></div>
+        <div class="vocab-item">fireworks<em>ألعاب نارية</em></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">📐</span> Grammar – Present Progressive</h3>
+      <div class="grammar-rule">
+        <strong>Subject + am/is/are + verb-ing</strong><br>
+        Use for actions happening <strong>right now</strong>.
+      </div>
+      <div class="example">
+        ✅ They <strong>are dancing</strong> at the party.<br>
+        ✅ She <strong>is blowing out</strong> the candles.<br>
+        ✅ <strong>Is</strong> he <strong>singing</strong>? – Yes, he <strong>is</strong>. / No, he <strong>isn't</strong>.
+      </div>
+      <div class="grammar-rule" style="margin-top:10px;">
+        <strong>Spelling rules for -ing:</strong><br>
+        • dance → danc<strong>ing</strong> (drop e)<br>
+        • run → run<strong>ning</strong> (double consonant)<br>
+        • play → play<strong>ing</strong> (just add -ing)
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">🎯</span> Quick Quiz</h3>
+      <div id="quiz14"></div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">✏️</span> Fill in the Blank</h3>
+      <div id="fill14"></div>
+      <button class="check-btn" onclick="checkFill('fill14')">Check ✓</button>
+      <button class="reset-btn" onclick="resetFill('fill14')">Reset</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== UNIT 15 ==================== -->
+<div class="unit-panel" id="unit15">
+  <div class="unit-header" style="background:#1d4ed8;">
+    <div class="unit-badge" style="background:#d97706;">Unit 15</div>
+    <div>
+      <h2>Then and Now</h2>
+      <p>Past vs. Present · Simple Past (was/were)</p>
+    </div>
+  </div>
+  <div class="sections">
+
+    <div class="section-card">
+      <h3><span class="icon">📝</span> Key Vocabulary – Time & Change</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item">ago<em>منذ</em></div>
+        <div class="vocab-item">before<em>قبل</em></div>
+        <div class="vocab-item">now<em>الآن</em></div>
+        <div class="vocab-item">in the past<em>في الماضي</em></div>
+        <div class="vocab-item">used to<em>كان يفعل</em></div>
+        <div class="vocab-item">modern<em>حديث</em></div>
+        <div class="vocab-item">old-fashioned<em>قديم الطراز</em></div>
+        <div class="vocab-item">technology<em>تكنولوجيا</em></div>
+        <div class="vocab-item">transportation<em>مواصلات</em></div>
+        <div class="vocab-item">communication<em>تواصل</em></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">📐</span> Grammar – Simple Past: was / were</h3>
+      <div class="grammar-rule">
+        <strong>I / He / She / It</strong> → <strong>was</strong><br>
+        <strong>You / We / They</strong> → <strong>were</strong><br>
+        Negative: <strong>wasn't</strong> / <strong>weren't</strong>
+      </div>
+      <div class="example">
+        ✅ Life <strong>was</strong> different 100 years ago.<br>
+        ✅ There <strong>were</strong> no computers in 1900.<br>
+        ✅ <strong>Was</strong> it hot yesterday? – Yes, it <strong>was</strong>. / No, it <strong>wasn't</strong>.
+      </div>
+      <div class="grammar-rule" style="margin-top:10px;">
+        <strong>used to</strong> = something that happened regularly in the past but not now.<br>
+        <strong>Subject + used to + base verb</strong>
+      </div>
+      <div class="example">✅ People <strong>used to</strong> travel by horse. &nbsp;|&nbsp; We <strong>used to</strong> write letters.</div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">🎯</span> Quick Quiz</h3>
+      <div id="quiz15"></div>
+    </div>
+
+    <div class="section-card">
+      <h3><span class="icon">✏️</span> Fill in the Blank</h3>
+      <div id="fill15"></div>
+      <button class="check-btn" onclick="checkFill('fill15')">Check ✓</button>
+      <button class="reset-btn" onclick="resetFill('fill15')">Reset</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ==================== DATA ====================
+const quizData = {
+  9: [
+    { q:"What does a doctor do?", opts:["Teaches students","Treats sick people","Builds houses","Cooks food"], ans:1 },
+    { q:"Choose the correct sentence:", opts:["She teach English.","He teachs math.","She teaches science.","They teaches art."], ans:2 },
+    { q:"_____ he work in a hospital?", opts:["Do","Does","Is","Are"], ans:1 },
+    { q:"My brother _____ as an engineer.", opts:["work","working","works","to work"], ans:2 },
+  ],
+  10: [
+    { q:"Which subject involves numbers?", opts:["History","Art","Math","Music"], ans:2 },
+    { q:"I _____ study before the exam.", opts:["always","never","sometimes","usually"], ans:0 },
+    { q:"She is _____ late for school. (0% of the time)", opts:["always","usually","never","often"], ans:2 },
+    { q:"Which word describes something hard to do?", opts:["Easy","Boring","Interesting","Difficult"], ans:3 },
+  ],
+  11: [
+    { q:"What time is 'quarter past seven'?", opts:["6:45","7:15","7:30","7:45"], ans:1 },
+    { q:"I wake up _____ 6 o'clock.", opts:["in","on","at","by"], ans:2 },
+    { q:"She does her homework _____ the afternoon.", opts:["at","in","on","by"], ans:1 },
+    { q:"Choose the correct daily routine order:", opts:["Sleep → Breakfast → Wake up","Wake up → Get dressed → Breakfast","Breakfast → Sleep → Wake up","Get dressed → Sleep → Wake up"], ans:1 },
+  ],
+  12: [
+    { q:"Where can you borrow books?", opts:["Stadium","Library","Museum","Gym"], ans:1 },
+    { q:"You _____ smoke here. (It's not allowed.)", opts:["can","can't","could","should"], ans:1 },
+    { q:"_____ we swim in the pool? – Yes, you can.", opts:["Do","Does","Can","Is"], ans:2 },
+    { q:"'Can' with he/she/it:", opts:["He cans run fast.","She can swims.","He can swim fast.","It cans fly."], ans:2 },
+  ],
+  13: [
+    { q:"I _____ going to wear a jacket.", opts:["am","is","are","be"], ans:0 },
+    { q:"She _____ going to buy new shoes.", opts:["am","is","are","be"], ans:1 },
+    { q:"What do you wear when it's cold?", opts:["Sandals and shorts","A sweater and scarf","A swimsuit","A hat only"], ans:1 },
+    { q:"_____ they going to come to the party?", opts:["Am","Is","Are","Be"], ans:2 },
+  ],
+  14: [
+    { q:"She _____ a birthday cake right now.", opts:["bake","bakes","is baking","baked"], ans:2 },
+    { q:"Spelling: dance + ing = ?", opts:["danceing","dancing","danccing","dansing"], ans:1 },
+    { q:"They _____ at the party. (right now)", opts:["dance","dances","are dancing","is dancing"], ans:2 },
+    { q:"What do you blow out on a birthday?", opts:["Gifts","Candles","Fireworks","Music"], ans:1 },
+  ],
+  15: [
+    { q:"I _____ tired yesterday.", opts:["am","is","was","were"], ans:2 },
+    { q:"They _____ at home last night.", opts:["was","is","are","were"], ans:3 },
+    { q:"People used to _____ by horse.", opts:["traveled","travels","travel","travelling"], ans:2 },
+    { q:"There _____ no internet 50 years ago.", opts:["was","were","is","are"], ans:1 },
+  ],
+};
+
+const fillData = {
+  9: [
+    { sentence:"A _____ works in a hospital and helps sick people.", answer:"doctor" },
+    { sentence:"My sister _____ English at a school. (teach)", answer:"teaches" },
+    { sentence:"_____ your father work in an office? (question)", answer:"Does" },
+  ],
+  10: [
+    { sentence:"Math is my favorite subject. It's not _____; it's interesting.", answer:"boring" },
+    { sentence:"She _____ does her homework. She never forgets. (always)", answer:"always" },
+    { sentence:"I _____ like science. It's too difficult for me. (never)", answer:"never" },
+  ],
+  11: [
+    { sentence:"I wake up _____ 6 o'clock every morning.", answer:"at" },
+    { sentence:"We do homework _____ the afternoon.", answer:"in" },
+    { sentence:"She goes to school _____ Monday.", answer:"on" },
+  ],
+  12: [
+    { sentence:"You _____ play football in the library.", answer:"can't" },
+    { sentence:"_____ you swim? – Yes, I can.", answer:"Can" },
+    { sentence:"We _____ see animals at the zoo.", answer:"can" },
+  ],
+  13: [
+    { sentence:"I _____ going to wear a dress to the party.", answer:"am" },
+    { sentence:"He _____ going to buy new sneakers tomorrow.", answer:"is" },
+    { sentence:"They _____ going to celebrate at the restaurant.", answer:"are" },
+  ],
+  14: [
+    { sentence:"Look! She _____ (sing) a birthday song.", answer:"is singing" },
+    { sentence:"They _____ (dance) at the party right now.", answer:"are dancing" },
+    { sentence:"He _____ (blow) out the candles.", answer:"is blowing" },
+  ],
+  15: [
+    { sentence:"Life _____ very different 100 years ago.", answer:"was" },
+    { sentence:"There _____ no smartphones in 1990.", answer:"were" },
+    { sentence:"People used to _____ letters before email.", answer:"write" },
+  ],
+};
+
+// ==================== BUILD QUIZZES ====================
+function buildQuizzes() {
+  for (const unit in quizData) {
+    const container = document.getElementById('quiz' + unit);
+    if (!container) continue;
+    let html = '';
+    quizData[unit].forEach((q, qi) => {
+      html += `<div class="quiz-question" id="qq${unit}_${qi}">
+        <p>${qi + 1}. ${q.q}</p>
+        <div class="options">
+          ${q.opts.map((o, oi) => `<button class="option-btn" onclick="answerQ(${unit},${qi},${oi},${q.ans})">${String.fromCharCode(65+oi)}. ${o}</button>`).join('')}
+        </div>
+        <div class="feedback" id="fb${unit}_${qi}"></div>
+      </div>`;
+    });
+    // score
+    html += `<div class="score-bar"><div class="score-fill" id="sf${unit}"></div></div>
+             <div class="score-label" id="sl${unit}">Score: 0 / ${quizData[unit].length}</div>`;
+    container.innerHTML = html;
+    window['score' + unit] = 0;
+  }
+}
+
+function answerQ(unit, qi, chosen, correct) {
+  const qq = document.getElementById(`qq${unit}_${qi}`);
+  const buttons = qq.querySelectorAll('.option-btn');
+  const fb = document.getElementById(`fb${unit}_${qi}`);
+  if (qq.dataset.answered) return;
+  qq.dataset.answered = '1';
+  buttons.forEach(b => b.disabled = true);
+  if (chosen === correct) {
+    buttons[chosen].classList.add('correct');
+    fb.textContent = '✅ Correct!';
+    fb.className = 'feedback correct';
+    window['score' + unit] = (window['score' + unit] || 0) + 1;
+  } else {
+    buttons[chosen].classList.add('wrong');
+    buttons[correct].classList.add('correct');
+    fb.textContent = '❌ The correct answer is ' + String.fromCharCode(65+correct);
+    fb.className = 'feedback wrong';
+  }
+  const total = quizData[unit].length;
+  const sc = window['score' + unit] || 0;
+  document.getElementById('sf' + unit).style.width = (sc / total * 100) + '%';
+  document.getElementById('sl' + unit).textContent = `Score: ${sc} / ${total}`;
+}
+
+// ==================== BUILD FILLS ====================
+function buildFills() {
+  for (const unit in fillData) {
+    const container = document.getElementById('fill' + unit);
+    if (!container) continue;
+    let html = '';
+    fillData[unit].forEach((item, i) => {
+      const display = item.sentence.replace('_____', `<input class="blank" data-answer="${item.answer}" data-index="${i}" placeholder="...">`);
+      html += `<div class="fill-question"><p>${i+1}. ${display}</p></div>`;
+    });
+    container.innerHTML = html;
+  }
+}
+
+function checkFill(containerId) {
+  const container = document.getElementById(containerId);
+  container.querySelectorAll('input.blank').forEach(inp => {
+    inp.classList.remove('correct', 'wrong');
+    const userVal = inp.value.trim().toLowerCase();
+    const correct = inp.dataset.answer.toLowerCase();
+    inp.classList.add(userVal === correct ? 'correct' : 'wrong');
+  });
+}
+
+function resetFill(containerId) {
+  const container = document.getElementById(containerId);
+  container.querySelectorAll('input.blank').forEach(inp => {
+    inp.value = '';
+    inp.classList.remove('correct', 'wrong');
+  });
+}
+
+// ==================== TABS ====================
+function showUnit(num, btn) {
+  document.querySelectorAll('.unit-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('unit' + num).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ==================== INIT ====================
+buildQuizzes();
+buildFills();
+</script>
+
+</body>
+</html>
